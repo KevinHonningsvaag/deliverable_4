@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version-file: "3.13"
+
+      - name: Install project
+        run: uv sync --locked --dev
+
+      - name: Control format
+        run: uv run ruff format --check .
+
+      - name: Run Ruff
+        run: uv run ruff check .
+
+      - name: Control types
+        run: uv run basedpyright
+
+      - name: Run tests
+        run: uv run pytest
