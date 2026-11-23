@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 TEMPRATURE_TOLERANCE = 1e-9
 VALID_UNITS = ["K", "C", "F"]
 
