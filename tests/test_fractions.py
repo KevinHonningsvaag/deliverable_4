@@ -1,6 +1,6 @@
-from deliverable_4.fraction import Fraction
-
 import pytest
+
+from deliverable_4.fraction import Fraction
 
 
 def test_initialization():
