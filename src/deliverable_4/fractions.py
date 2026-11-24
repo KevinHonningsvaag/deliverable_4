@@ -1,3 +1,5 @@
+from math import gcd
+
 class Fraction:
     def __init__(self, numerator: int, denominator: int)-> None:
         """Initialize a fraction with a numerator and denominator.
@@ -12,6 +14,13 @@ class Fraction:
         """
         self.numerator = numerator
         self.denominator = denominator
+        
+        # Find the greatest common divisor
+        divisor = gcd(numerator, denominator)
+
+        # Simplify the fraction
+        self.numerator = numerator // divisor
+        self.denominator = denominator // divisor
         if denominator <= 0:
             raise ValueError("Denominator must be positive and more than zero")
         if not isinstance(numerator, int) or not isinstance(denominator, int):
@@ -56,4 +65,13 @@ class Fraction:
         """ Checks if self is gretaer or equal to other """
         if not isinstance(other, Fraction):
             return NotImplemented
-        return self.numerator * other.denominator >= self.denominator * other.numerator      
+        return self.numerator * other.denominator >= self.denominator * other.numerator   
+
+    def __add__(self, other: object) -> Fraction:
+        """Adds two fractions together"""
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return Fraction((
+            (self.numerator * other.denominator)
+            + (other.numerator * self.denominator)),
+            (self.denominator * other.denominator))
