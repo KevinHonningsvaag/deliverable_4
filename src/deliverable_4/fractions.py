@@ -1,6 +1,15 @@
 class Fraction:
     def __init__(self, numerator: int, denominator: int)-> None:
-        """ Initialiser"""
+        """Initialize a fraction with a numerator and denominator.
+
+        Args:
+            numerator (int): The numerator of the fraction.
+            denominator (int): The denominator of the fraction.
+
+        Raises:
+            TypeError: If numerator or denominator is not an integer.
+            ValueError: If denominator is not positive.
+        """
         self.numerator = numerator
         self.denominator = denominator
         if denominator <= 0:
@@ -22,4 +31,29 @@ class Fraction:
         if not isinstance(other, Fraction):
                     return NotImplemented
         return not self.__eq__(other)
-        
+    
+
+    def __lt__(self, other: object) -> bool:
+        """ Checks if self is less than other """
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return self.numerator * other.denominator < self.denominator * other.numerator
+
+
+    def __gt__(self, other: object) -> bool:
+        """Checks if self is greater than other"""
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return self.numerator * other.denominator > self.denominator * other.numerator
+
+    def __le__(self, other: object) -> bool:
+        """ Checks if self is less or equal to other """
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return self.numerator * other.denominator <= self.denominator * other.numerator      
+
+    def __ge__(self, other: object) -> bool:
+        """ Checks if self is gretaer or equal to other """
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return self.numerator * other.denominator >= self.denominator * other.numerator      
