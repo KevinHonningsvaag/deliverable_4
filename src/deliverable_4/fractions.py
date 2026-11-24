@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from math import gcd
 
+
 class Fraction:
-    def __init__(self, numerator: int, denominator: int)-> None:
+    def __init__(self, numerator: int, denominator: int) -> None:
         """Initialize a fraction with a numerator and denominator.
 
         Args:
@@ -26,28 +29,23 @@ class Fraction:
         if not isinstance(numerator, int) or not isinstance(denominator, int):
             raise TypeError("Numerator and denominator must be integers")
 
-    def __eq__(self, other: object )-> bool:
+    def __eq__(self, other: object) -> bool:
         """Returns True if two fractions are equal"""
         if not isinstance(other, Fraction):
             return NotImplemented
-        if self.numerator * other.denominator == self.denominator * other.numerator:
-            return True
-        else:
-            return False
+        return self.numerator * other.denominator == self.denominator * other.numerator
 
-    def __ne__(self, other: object)-> bool:
+    def __ne__(self, other: object) -> bool:
         """Returns true if two fractions are unequal"""
         if not isinstance(other, Fraction):
-                    return NotImplemented
+            return NotImplemented
         return not self.__eq__(other)
-    
 
     def __lt__(self, other: object) -> bool:
-        """ Checks if self is less than other """
+        """Checks if self is less than other"""
         if not isinstance(other, Fraction):
             return NotImplemented
         return self.numerator * other.denominator < self.denominator * other.numerator
-
 
     def __gt__(self, other: object) -> bool:
         """Checks if self is greater than other"""
@@ -56,34 +54,34 @@ class Fraction:
         return self.numerator * other.denominator > self.denominator * other.numerator
 
     def __le__(self, other: object) -> bool:
-        """ Checks if self is less or equal to other """
+        """Checks if self is less or equal to other"""
         if not isinstance(other, Fraction):
             return NotImplemented
-        return self.numerator * other.denominator <= self.denominator * other.numerator      
+        return self.numerator * other.denominator <= self.denominator * other.numerator
 
     def __ge__(self, other: object) -> bool:
-        """ Checks if self is gretaer or equal to other """
+        """Checks if self is gretaer or equal to other"""
         if not isinstance(other, Fraction):
             return NotImplemented
-        return self.numerator * other.denominator >= self.denominator * other.numerator   
+        return self.numerator * other.denominator >= self.denominator * other.numerator
 
     def __add__(self, other: object) -> Fraction:
         """Adds two fractions together"""
         if not isinstance(other, Fraction):
             return NotImplemented
-        return Fraction((
-            (self.numerator * other.denominator)
-            + (other.numerator * self.denominator)),
-            (self.denominator * other.denominator))
+        return Fraction(
+            ((self.numerator * other.denominator) + (other.numerator * self.denominator)),
+            (self.denominator * other.denominator),
+        )
 
     def __sub__(self, other: object) -> Fraction:
         """Subtracts one fraction from the other"""
         if not isinstance(other, Fraction):
             return NotImplemented
-        return Fraction((
-            (self.numerator * other.denominator)
-            - (other.numerator * self.denominator)),
-            (self.denominator * other.denominator))
+        return Fraction(
+            ((self.numerator * other.denominator) - (other.numerator * self.denominator)),
+            (self.denominator * other.denominator),
+        )
 
     def __mul__(self, other: object) -> Fraction:
         """multiplies two fractions"""
@@ -104,6 +102,5 @@ class Fraction:
         if other.numerator < 0:
             new_numerator = new_numerator * -1
             new_denominator = new_denominator * -1
-            
-            
+
         return Fraction(new_numerator, new_denominator)
