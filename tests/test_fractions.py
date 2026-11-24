@@ -20,10 +20,10 @@ def test_invalid_denominator():
 
 def test_invalid_types():
     with pytest.raises(TypeError):
-        Fraction(1.5, 2)
+        Fraction(1.5, 2) # pyright: ignore[reportArgumentType]
 
     with pytest.raises(TypeError):
-        Fraction(1, "3")
+        Fraction(1, "3") # pyright: ignore[reportArgumentType]
 
 
 def test_equality():
@@ -88,7 +88,7 @@ def test_division_by_zero():
     fraction2 = Fraction(0, 5)
 
     with pytest.raises(ZeroDivisionError):
-        fraction1 / fraction2
+        _ = fraction1 / fraction2
 
 
 def test_negative_division():
@@ -138,16 +138,16 @@ def test_unsupported_types():
     assert fraction.__ge__(3) is NotImplemented
 
     with pytest.raises(TypeError):
-        fraction + 3
+       _ = fraction + 3
 
     with pytest.raises(TypeError):
-        fraction - 3
+       _ = fraction - 3
 
     with pytest.raises(TypeError):
-        fraction * 3
+        _ = fraction * 3
 
     with pytest.raises(TypeError):
-        fraction / 3
+        _ = fraction / 3
 
 
 def test_unchanged_fractions():
@@ -155,10 +155,10 @@ def test_unchanged_fractions():
     fraction1 = Fraction(1, 2)
     fraction2 = Fraction(1, 3)
 
-    fraction1 + fraction2
-    fraction1 - fraction2
-    fraction1 * fraction2
-    fraction1 / fraction2
+    _ = fraction1 + fraction2
+    _ = fraction1 - fraction2
+    _ = fraction1 * fraction2
+    _ = fraction1 / fraction2
 
     assert fraction1.numerator == 1
     assert fraction1.denominator == 2
