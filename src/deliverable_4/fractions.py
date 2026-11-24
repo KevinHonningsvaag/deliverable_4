@@ -14,7 +14,7 @@ class Fraction:
         """
         self.numerator = numerator
         self.denominator = denominator
-        
+
         # Find the greatest common divisor
         divisor = gcd(numerator, denominator)
 
@@ -75,3 +75,35 @@ class Fraction:
             (self.numerator * other.denominator)
             + (other.numerator * self.denominator)),
             (self.denominator * other.denominator))
+
+    def __sub__(self, other: object) -> Fraction:
+        """Subtracts one fraction from the other"""
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return Fraction((
+            (self.numerator * other.denominator)
+            - (other.numerator * self.denominator)),
+            (self.denominator * other.denominator))
+
+    def __mul__(self, other: object) -> Fraction:
+        """multiplies two fractions"""
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
+
+    def __truediv__(self, other: object) -> Fraction:
+        """DIvides two fractions"""
+        if not isinstance(other, Fraction):
+            return NotImplemented
+        new_numerator = self.numerator * other.denominator
+        new_denominator = self.denominator * other.numerator
+
+        if other.numerator == 0:
+            raise ZeroDivisionError
+
+        if other.numerator < 0:
+            new_numerator = new_numerator * -1
+            new_denominator = new_denominator * -1
+            
+            
+        return Fraction(new_numerator, new_denominator)
