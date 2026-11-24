@@ -1,6 +1,6 @@
 class Fraction:
     def __init__(self, numerator: int, denominator: int)-> None:
-        """ docstring"""
+        """ Initialiser"""
         self.numerator = numerator
         self.denominator = denominator
         if denominator <= 0:
