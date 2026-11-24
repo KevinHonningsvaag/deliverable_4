@@ -15,8 +15,11 @@ class Fraction:
             TypeError: If numerator or denominator is not an integer.
             ValueError: If denominator is not positive.
         """
-        self.numerator = numerator
-        self.denominator = denominator
+        if not isinstance(numerator, int) or not isinstance(denominator, int):
+            raise TypeError("Numerator and denominator must be integers")
+
+        if denominator <= 0:
+            raise ValueError("Denominator must be positive and more than zero")
 
         # Find the greatest common divisor
         divisor = gcd(numerator, denominator)
@@ -24,10 +27,6 @@ class Fraction:
         # Simplify the fraction
         self.numerator = numerator // divisor
         self.denominator = denominator // divisor
-        if denominator <= 0:
-            raise ValueError("Denominator must be positive and more than zero")
-        if not isinstance(numerator, int) or not isinstance(denominator, int):
-            raise TypeError("Numerator and denominator must be integers")
 
     def __eq__(self, other: object) -> bool:
         """Returns True if two fractions are equal"""
