@@ -20,10 +20,10 @@ def test_invalid_denominator():
 
 def test_invalid_types():
     with pytest.raises(TypeError):
-        Fraction(1.5, 2) # pyright: ignore[reportArgumentType]
+        Fraction(1.5, 2)  # pyright: ignore[reportArgumentType]
 
     with pytest.raises(TypeError):
-        Fraction(1, "3") # pyright: ignore[reportArgumentType]
+        Fraction(1, "3")  # pyright: ignore[reportArgumentType]
 
 
 def test_equality():
@@ -138,10 +138,10 @@ def test_unsupported_types():
     assert fraction.__ge__(3) is NotImplemented
 
     with pytest.raises(TypeError):
-       _ = fraction + 3
+        _ = fraction + 3
 
     with pytest.raises(TypeError):
-       _ = fraction - 3
+        _ = fraction - 3
 
     with pytest.raises(TypeError):
         _ = fraction * 3

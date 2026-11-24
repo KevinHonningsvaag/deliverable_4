@@ -15,7 +15,7 @@ class Fraction:
             TypeError: If numerator or denominator is not an integer.
             ValueError: If denominator is not positive.
         """
-        if not isinstance(numerator, int) or not isinstance(denominator, int): # pyright: ignore[reportUnnecessaryIsInstance]
+        if not isinstance(numerator, int) or not isinstance(denominator, int):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("Numerator and denominator must be integers")
 
         if denominator <= 0:
