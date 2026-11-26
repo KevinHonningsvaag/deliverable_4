@@ -5,8 +5,14 @@ VALID_UNITS = ["K", "C", "F"]
 
 
 class Temprature:
-    def __init__(self, value: float, unit: str = "C") -> None:
+    """Represents a temprature"""
 
+    def __init__(self, value: float, unit: str = "C") -> None:
+        """
+        Args:
+           value (float): the temprature
+           unit (str): what unit the temprature is in, acepted units(Kelvin, celsius and fahrenheit)
+        """
         self._value = value
         self._unit = unit.upper()
 
@@ -18,11 +24,21 @@ class Temprature:
 
     @property
     def value(self) -> float:
+        """Public read only property to inspect value"""
         return self._value
 
     @property
     def unit(self) -> str:
+        """Public read only property to inspect value"""
         return self._unit
+
+    def __str__(self) -> str:
+        """String representation of temprature"""
+        return f"{self._value:.2f} °{self._unit}"
+
+    def __repr__(self) -> str:
+        """Representation of temprature"""
+        return f"{type(self).__name__}({self._value!r}, {self._unit!r})"
 
     def to_celsius(self) -> float:
         """Calculate respective unit into celsius"""
@@ -57,3 +73,48 @@ class Temprature:
         elif target_unit == "K":
             return Temprature(self.to_kelvin(), target_unit)
         return Temprature(self._value, self._unit)  # Returns if the target unit is already the unit
+
+    def _difference(self, other: Temprature) -> float:
+        """Finds the difference betwen to temperatures, treating differences within the tolerance as no difference"""
+        temprature_1 = self.to_kelvin()
+        temprature_2 = other.to_kelvin()
+        if temprature_1 == temprature_2:
+            return 0.0
+        difference = temprature_1 - temprature_2
+        return 0.0 if abs(difference) <= TEMPRATURE_TOLERANCE else difference
+
+    def __eq__(self, other: object) -> bool:
+        """Checks if two temperatures is equal"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) == 0
+
+    def __ne__(self, other: object) -> bool:
+        """Checks if two temperatures are unequal"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) != 0
+
+    def __lt__(self, other: object) -> bool:
+        """Checks if the first temperature is lower than the second"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) < 0
+
+    def __le__(self, other: object) -> bool:
+        """Checks if the first temperature is lower than or equal to the second"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) <= 0
+
+    def __gt__(self, other: object) -> bool:
+        """Checks if the first temperature is higher than the second"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) > 0
+
+    def __ge__(self, other: object) -> bool:
+        """Checks if the first temperature is higher than or equal to the second"""
+        if not isinstance(other, Temprature):
+            return NotImplemented
+        return self._difference(other) >= 0
