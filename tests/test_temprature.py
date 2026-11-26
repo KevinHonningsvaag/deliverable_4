@@ -39,3 +39,63 @@ def test_below_absolute_zero_raises_value_error(value: float, unit: str) -> None
 def test_absolute_zero_is_valid(value: float, unit: str) -> None:
     temperature = Temprature(value, unit)
     assert temperature.value == value
+
+
+@pytest.mark.parametrize(
+    ("celsius", "fahrenheit", "kelvin"),
+    [
+        (-273.15, -459.67, 0.0),
+        (-40.0, -40.0, 233.15),
+        (0.0, 32.0, 273.15),
+        (37.0, 98.6, 310.15),
+        (100.0, 212.0, 373.15),
+    ],
+    ids=["absolute-zero", "crossover", "freezing", "body-temperature", "boiling"],
+)
+@pytest.mark.parametrize("unit", ["C", "F", "K"])
+def test_reference_conversions(celsius: float, fahrenheit: float, kelvin: float, unit: str) -> None:
+    values = {"C": celsius, "F": fahrenheit, "K": kelvin}
+    temperature = Temprature(values[unit], unit)
+    assert temperature.to_celsius() == pytest.approx(celsius, abs=1e-9)
+    assert temperature.to_fahrenheit() == pytest.approx(fahrenheit, abs=1e-9)
+    assert temperature.to_kelvin() == pytest.approx(kelvin, abs=1e-9)
+
+
+def test_round_trip_conversion() -> None:
+    original = Temprature(37.0, "C")
+    fahrenheit = original.convert_to("F")
+    kelvin = fahrenheit.convert_to("K")
+    result = kelvin.convert_to("C")
+
+    assert (fahrenheit.unit, kelvin.unit, result.unit) == ("F", "K", "C")
+    assert fahrenheit.value == pytest.approx(98.6, abs=1e-9)
+    assert kelvin.value == pytest.approx(310.15, abs=1e-9)
+    assert result.value == pytest.approx(original.value, abs=1e-9)
+
+
+@pytest.mark.parametrize(
+    ("fahrenheit", "kelvin", "order"),
+    [(32.0, 273.15, 0), (32.0, 273.15 + 5e-10, 0), (32.0, 274.15, -1), (32.0, 272.15, 1)],
+    ids=["equal", "within-tolerance", "colder", "warmer"],
+)
+def test_cross_unit_comparisons(fahrenheit: float, kelvin: float, order: int) -> None:
+    first = Temprature(fahrenheit, "F")
+    second = Temprature(kelvin, "K")
+    assert (first == second) == (order == 0)
+    assert (first != second) == (order != 0)
+    assert (first < second) == (order < 0)
+    assert (first <= second) == (order <= 0)
+    assert (first > second) == (order > 0)
+    assert (first >= second) == (order >= 0)
+
+
+@pytest.mark.parametrize(
+    ("value", "unit", "expected"),
+    [(25.0, "C", "25.00 °C"), (-40.126, "F", "-40.13 °F"), (0.0, "K", "0.00 °K")],
+)
+def test_str_format(value: float, unit: str, expected: str) -> None:
+    assert str(Temprature(value, unit)) == expected
+
+
+def test_repr_format() -> None:
+    assert repr(Temprature(25.125, "c")) == "Temprature(25.125, 'C')"
